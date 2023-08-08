@@ -16,7 +16,10 @@
 package com.example.wordsapp
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import android.provider.LiveFolders.INTENT
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,11 +79,20 @@ class WordAdapter(private val letterId: String, context: Context) :
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
 
         val item = filteredWords[position]
+
         // Needed to call startActivity
         val context = holder.view.context
 
         // Set the text of the WordViewHolder
         holder.button.text = item
+
+        //when the button is clicked open the browser with the def
+        holder.button.setOnClickListener {
+            val queryUrl : Uri = Uri.parse("${DetailActivity.SEARCH_PREFIX}${item}")
+            val browserIntent = Intent(Intent.ACTION_VIEW, queryUrl)
+            context.startActivity(browserIntent)
+
+        }
 
     }
     // Setup custom accessibility delegate to set the text read with
